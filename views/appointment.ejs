@@ -1,0 +1,128 @@
+<%-   include('./partials/header.ejs')     %>
+<body>
+    <%- include('./partials/navbar.ejs')    %>
+    <!-- <h2>welcome from home page in an ejs template</h2> -->
+    <header class="masthead" style="background-image: url('/images/gg2.jpg')">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="site-heading">
+                        <h2>Appointment</h2>
+                        <span class="subheading">Create Appointment Schedule</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+              <% if(message){  %>
+                <span class="alert alert-primary"> <%=message %></span>
+
+                <% } %>
+              <hr>
+             
+                <form method="post" action="/appointment_post">
+                   
+                  <fieldset class="scheduler-border">
+                    <legend class="scheduler-border">Create Appointments</legend>
+                    <div class="mb-3">
+                        <label for="inputDate" class="form-label">Date </label>
+                      
+                        <input type="date" class="form-control" id="inputDate" name="date" required >
+                    </div>
+                   <div id="aat" class="mb-3">Already Added Timeslots:<span id="already" style="color: brown;"></span></div>
+                    <div class="mb-3">
+                        <label for="inputTimeslots" class="form-label">Time Slots </label>
+                       
+                        <select multiple class="form-select" id="inputTimeslots" name="timeslots" required>
+                            <option value="9:00 AM">9:00 AM</option>
+                <option value="9:30 AM">9:30 AM</option>
+                <option value="10:00 AM">10:00 AM</option>
+                <option value="10:30 AM">10:30 AM</option>
+                <option value="11:00 AM">11:00 AM</option>
+                <option value="11:30 AM">11:30 AM</option>
+                <option value="12:00 PM">12:00 PM</option>
+                <option value="12:30 PM">12:30 PM</option>
+                <option value="1:00 PM">1:00 PM</option>
+                <option value="1:30 PM">1:30 PM</option>
+                <option value="2:00 PM">2:00 PM</option>
+                            
+                        </select>
+                    </div>
+                    
+                </fieldset>
+               
+              
+                <button type="submit" class="btn btn-primary">Submit</button>
+                  
+                   
+                  </form>
+                 
+                
+                
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $('#aat').hide();
+            let today = new Date().toISOString().split('T')[0];
+document.getElementsByName("date")[0].setAttribute('min', today);
+    function fetchAvailableTimeSlots(selectedDate) {
+        $.ajax({
+            type: 'POST',
+            url: '/available_time_slots',
+            data: { date: selectedDate }, 
+            success: function(response) {
+                
+                console.log('Available time slots:', response);
+               
+                displayAvailableTimeSlots(response);
+            },
+            error: function( error) {
+                
+                console.error('Error fetching available time slots:', error);
+            }
+        });
+    }
+
+function displayAvailableTimeSlots(timeSlots) {
+        let ts=timeSlots.availableTimeSlots;
+        let os=timeSlots.occupiedTimeSlots;
+        console.log(os);
+        if(os.length!=0){
+            $('#aat').show();
+        }else{
+            $('#aat').hide();
+        }
+        $('#inputTimeslots').empty();
+        
+        ts.forEach(function(timeSlot) {
+            $('#inputTimeslots').append($('<option>', { 
+                value: timeSlot,
+                text : timeSlot 
+            }));
+        });
+        let htm=""
+        os.forEach(function(slot) {
+            htm+=" "+slot
+            $('#already').html(htm);
+        });
+    }
+
+    
+    $('#inputDate').on('change', function() {
+        $('#aat').hide();
+        const selectedDate = $(this).val();
+        if (selectedDate) {
+            
+            fetchAvailableTimeSlots(selectedDate);
+        }
+    });
+});
+    </script>
+</body>
+<%-  include('./partials/footer.ejs')         %>
+</html>

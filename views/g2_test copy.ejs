@@ -1,0 +1,90 @@
+<%-   include('./partials/header.ejs')     %>
+<body>
+    <%- include('./partials/navbar.ejs')    %>
+    <!-- <h2>welcome from home page in an ejs template</h2> -->
+    <header class="masthead" style="background-image: url('/images/gg2.jpg')">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="site-heading">
+                        <h2>G2 Test</h2>
+                        <span class="subheading">Drive Test Booking Kiosk</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+              <% if(message){  %>
+                <span class="alert alert-primary"> <%=message %></span>
+
+                <% } %>
+              <hr>
+                <form method="post" action="/g2_test/<%= loggedInId %> ">
+                   
+                    <fieldset class="scheduler-border">
+                        <legend class="scheduler-border">Personal Details</legend>
+                        <div class="mb-3">
+                            <label for="inputFirstname" class="form-label">First Name </label>
+                            <input type="text" class="form-control" id="inputFirstname" required name="first_name">
+                            
+                          </div>
+                          <div class="mb-3">
+                            <label for="inputLastname" class="form-label">Last Name </label>
+                            <input type="text" class="form-control" id="inputLastname" required name="last_name">
+                            
+                          </div>
+                        <div class="mb-3">
+                            <label for="inputLicense" class="form-label">License Number </label>
+                            <input type="text" class="form-control" id="inputLicense" required name="license">
+                            <!-- <div id="emailHelp" class="form-text">We'll never share your License with anyone else.</div> -->
+                          </div>
+                          <div class="mb-3">
+                            <label for="inputAge" class="form-label">Age </label>
+                            <input type="number" class="form-control" id="inputAge" required name="age">
+                            
+                          </div>
+                          <div class="mb-3">
+                            <label for="inputDob" class="form-label">DOB </label>
+                            <input type="date" class="form-control" id="inputDob" required name="dob">
+                            
+                          </div>
+                          
+                    </fieldset>
+                    <fieldset class="scheduler-border">
+                        <legend class="scheduler-border">Car Details</legend>
+                        <div class="mb-3">
+                            <label for="inputCarmake" class="form-label">Make </label>
+                            <input type="text" class="form-control" id="inputCarmake" required name="cmake">
+                            
+                          </div>
+                          <div class="mb-3">
+                            <label for="inputCarmodel" class="form-label">Car Model </label>
+                            <input type="text" class="form-control" id="inputCarmodel" required name="cmodel">
+                            
+                          </div>
+                        <div class="mb-3">
+                            <label for="inputCaryear" class="form-label">Year </label>
+                            <input type="number" class="form-control" id="inputCaryear" required name="cyear">
+                          </div>
+                          <div class="mb-3">
+                            <label for="inputPlatno" class="form-label">Plat Number </label>
+                            <input type="text" class="form-control" id="inputPlatno" required name="cplatno">
+                            
+                          </div>
+                         
+                          
+                    </fieldset>
+                  
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </form>
+                
+                
+            </div>
+        </div>
+    </div>
+</body>
+<%-  include('./partials/footer.ejs')         %>
+</html>

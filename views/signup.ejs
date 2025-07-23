@@ -1,0 +1,61 @@
+<%-   include('./partials/header.ejs')     %>
+<body>
+    <%- include('./partials/navbar.ejs')    %>
+    <!-- <h2>welcome from home page in an ejs template</h2> -->
+    <header class="masthead" style="background-image: url('/images/login-bg.jpg')">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="site-heading">
+                        <h2>SignUp</h2>
+                        <span class="subheading">Drive Test Booking Kiosk</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <% if(message){  %>
+                <span class="alert alert-primary"> <%=message %></span>
+
+                <% } %>
+            <div class="col-md-10 col-lg-8 col-xl-7">
+               
+                <form  action="/signup" method="post">
+                    <div class="mb-3 col-sm-6">
+                        <label for="email" class="form-label">Email address</label>
+                        <input type="email" class="form-control" id="email" name="usr_email" required>
+                       
+                      </div>
+                      <div class="mb-3 col-sm-6">
+                        <label for="pwd" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="pwd"  name="usr_pwd" required>
+                      </div>
+                      <div class="mb-3 col-sm-6">
+                        <label for="rpwd" class="form-label">Confirm Password</label>
+                        <input type="password" class="form-control" id="rpwd"  name="rpt_usr_pwd" required>
+                      </div>
+
+                      <div class=" mb-3 col-sm-6">
+                         <label class="form-label" for="type">User Type</label>
+                        <select class="form-control" id="type" name="type" required>
+                          <option value="">Choose...</option>
+                          <option value="driver">Driver</option>
+                          <option value="admin">Admin</option>
+                          <option value="examiner">Examiner</option>
+                          
+                        </select>
+                       
+                      </div>
+                     
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                  </form>
+                
+                
+            </div>
+        </div>
+    </div>
+</body>
+<%-  include('./partials/footer.ejs')         %>
+</html>

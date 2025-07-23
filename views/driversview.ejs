@@ -1,0 +1,94 @@
+<%-   include('./partials/header.ejs')     %>
+<body>
+    <%- include('./partials/navbar.ejs')    %>
+    <!-- <h2>welcome from home page in an ejs template</h2> -->
+    <header class="masthead" style="background-image: url('/images/gg2.jpg')">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="site-heading">
+                        <h2>View Appointment</h2>
+                        <span class="subheading">Drive Test Booking Kiosk</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+              
+                
+                    <fieldset class="scheduler-border">
+                        <legend class="scheduler-border">Test Details</legend>
+                        <div class="mb-3">
+                            <label for="inputFirstname" class="form-label">Test Type  : <%=data.TestType   %></label>
+                            
+                            
+                          </div>
+                          <label for="status" class="form-label">Status : <%=if(data.status==true?'Passed':'Failed')   %></label>
+                         
+                        
+                        <div class="col-md-12">
+                            <label for="comment" class="form-label">Comments:</label>
+                            
+                            <div >
+                                <%=data.comment   %>
+                            </div>
+                        </div>
+                       
+                    </fieldset>
+                    
+                
+                   
+                    <fieldset class="scheduler-border">
+                        <legend class="scheduler-border">Driver Details</legend>
+                        <div class="mb-3">
+                            <label for="inputFirstname" class="form-label">First Name  : <%=data.user_id.first_name   %></label>
+                            
+                            
+                          </div>
+                          <div class="mb-3">
+                            <label for="inputLastname" class="form-label">Last Name  : <%=data.user_id.last_name   %></label>
+                           
+                            
+                          </div>
+                       
+                          
+                          
+                          
+                    </fieldset>
+                    <fieldset class="scheduler-border">
+                        <legend class="scheduler-border">Car Details</legend>
+                        <div class="mb-3">
+                            <label for="inputCarmake" class="form-label">Make : <%=data.user_id.car_details.cmake   %></label>
+                           
+                            
+                          </div>
+                          <div class="mb-3">
+                            <label for="inputCarmodel" class="form-label">Car Model : <%=data.user_id.car_details.cmodel   %></label>
+                            
+                            
+                          </div>
+                        <div class="mb-3">
+                            <label for="inputCaryear" class="form-label">Year : <%=data.user_id.car_details.cyear   %></label>
+                            
+                          </div>
+                          <div class="mb-3">
+                            <label for="inputPlatno" class="form-label">Plat Number: <%=data.user_id.car_details.cplatno   %> </label>
+                            
+                            
+                          </div>
+                         
+                          
+                    </fieldset>
+                  
+                   
+                
+                
+            </div>
+        </div>
+    </div>
+</body>
+<%-  include('./partials/footer.ejs')         %>
+</html>

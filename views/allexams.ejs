@@ -1,0 +1,167 @@
+<%-   include('./partials/header.ejs')     %>
+<body>
+    <%- include('./partials/navbar.ejs')    %>
+    <!-- <h2>welcome from home page in an ejs template</h2> -->
+    <header class="masthead" style="background-image: url('/images/gg2.jpg')">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="site-heading">
+                        <h2>Admin</h2>
+                        <span class="subheading">All G/G2 Test Status</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <h2>All Exams</h2>
+            <div class="col-md-10 col-lg-8 col-xl-7">
+              <% if(message){  %>
+                <span class="alert alert-primary"> <%=message %></span>
+
+                <% } %>
+              <hr>
+             
+                <form method="post" action="/filter_appointments">
+                   
+                  <fieldset class="scheduler-border">
+                    <legend class="scheduler-border">Filter Tests</legend>
+                    
+                   
+                    <div class="mb-3">
+                        <label for="inputTestType" class="form-label">Test Type </label>
+                       
+                        <select  class="form-select" id="inputTestType" name="timeslots" required>
+                            <option value="all">All</option>
+                            <option value="G">G Test</option>
+                            <option value="G2">G2 Test</option>
+                                            
+                        </select>
+                    </div>
+                    
+                </fieldset>
+               
+              
+               
+                  
+                   
+                  </form>
+                 
+               
+                
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                
+              <table class="table table-light table-striped-rows" id="testList">
+                
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Driver</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Test Type</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+    </div>
+    <script>
+        $(document).ready(function() {
+         
+//             let today = new Date().toISOString().split('T')[0];
+// document.getElementsByName("date")[0].setAttribute('min', today);
+function displayAllAppointments(data) {
+    if(data!=null){ 
+          $("#testList tbody").empty();
+          let tests=data.existingAppointments;
+          tests.forEach(function (obj, index) {
+            console.log(obj)
+            let btnClass=""
+            let status = "";
+    let certificate=""
+      if (obj.status == true) {
+        status = "Passed";
+      } else if (obj.status == false) {
+        status = "Failed";
+      } else{
+        status = "Not Updated";
+      }
+      if (obj.status == true && obj.TestType=='G') {
+        certificate = "Issue G License";
+        btnClass="success"
+      } else if (obj.status == true && obj.TestType=='G2' ) {
+        certificate = "Issue G2 License";
+        btnClass="success"
+      } else if (obj.status == false){
+        certificate = "Exam Failed";
+        btnClass="danger"
+      }else{
+        certificate = "Exam Not Completed";
+        btnClass="warning"
+      }
+            // Append task to the table
+            $("#testList tbody").append(`
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${obj.user_id.first_name} &nbsp; ${obj.user_id.last_name} </td>
+                        <td>${obj.Date}</td>
+                        <td>${obj.Time}</td>
+                        <td>${obj.TestType}</td>
+                        <td>${status}</td>
+                        <td>
+                            <a class="editTask btn btn-${btnClass}" href="#" >${certificate}</a>
+                           
+                        </td>
+                    </tr>
+                `);
+          });
+        }else{
+          $("#testList tbody").empty();
+                $("#testList tbody").append(`<tr><td colspan="8"><b>No Data Found</b></td></tr>`);
+        }
+      
+      
+}
+    function fetchAllAppointmentsOfType(test_type) {
+        $.ajax({
+            type: 'POST',
+            url: '/fetch_appointment_type',
+            data: { ttype: test_type }, 
+            success: function(response) {
+                console.log(response)
+                //console.log('Available time slots:', response);
+               
+                displayAllAppointments(response);
+            },
+            error: function( error) {
+                
+                console.error('Error fetching appointments:', error);
+            }
+        });
+    }
+    fetchAllAppointmentsOfType("all");
+
+
+    
+    $('#inputTestType').on('change', function() {
+        
+        const test_type = $(this).val();
+        if (test_type) {
+           // alert(test_type)
+            fetchAllAppointmentsOfType(test_type);
+        }
+    });
+});
+    </script>
+</body>
+<%-  include('./partials/footer.ejs')         %>
+</html>

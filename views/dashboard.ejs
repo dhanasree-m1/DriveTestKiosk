@@ -1,0 +1,47 @@
+<%-   include('./partials/header.ejs')     %>
+<body>
+    <%- include('./partials/navbar.ejs')    %>
+    <!-- <h2>welcome from home page in an ejs template</h2> -->
+    <header class="masthead" style="background-image: url('/images/bg.png')">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="site-heading">
+                        <h1>Dashboard</h1>
+                        <span class="subheading">Drive Test Booking Kiosk</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <!-- Post preview-->
+                <div class="post-preview">
+                    <p class="post-meta">
+                        Welcome To
+                        <a href="/">Drive Test center</a>
+                        
+                    </p>
+                    <a href="/home">
+
+                        <% if( loggedIn && loggedInType=='driver') {  %>
+                        <h2 class="post-title">You can book G2/G Drive test from this kiosk</h2>
+                        <h3 class="post-subtitle">You can book G2/G Drive test from this kiosk</h3>
+                        <% } else if( loggedIn && loggedInType=='admin') { %>
+                            <h2 class="post-title">You can add appointment schedule from this kiosk</h2>
+                            <h3 class="post-subtitle">You can add appointment schedule from this kiosk</h3>
+
+                            <% } %>
+                    </a>
+                   
+                </div>
+                
+                
+            </div>
+        </div>
+    </div>
+</body>
+<%-  include('./partials/footer.ejs')         %>
+</html>

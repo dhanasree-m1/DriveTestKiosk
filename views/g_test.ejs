@@ -1,0 +1,192 @@
+<%-   include('./partials/header.ejs')     %>
+<body>
+    <%- include('./partials/navbar.ejs')    %>
+    <style>
+      .failed{
+        color: red;
+      }
+      .passed{
+        color: green;
+      }
+    </style>
+    <!-- <h2>welcome from home page in an ejs template</h2> -->
+    <header class="masthead" style="background-image: url('/images/gg2.jpg')">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="site-heading">
+                        <h2>G Test</h2>
+                        <span class="subheading">G Test Booking Kiosk</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+              
+     
+                
+                <hr>
+                <% if(message){  %>
+                    <span class="alert alert-primary"> <b ><%=message %></b></span>
+
+                    <% } %>
+                    <hr>
+                    <form id="appointmentForm" method="post" action="/appointment_book_post_gtest">
+                      <fieldset class="scheduler-border">
+                        <% if(exist_ap){  %>
+                          <% if(exist_ap.status == true ||exist_ap.status==false ){  %>
+                          <span >You had a G Test appointment on: <%=exist_ap.Date %> at <%=exist_ap.Time %>  </span><hr>
+                           <span class="<%= exist_ap.status==true?'passed':'failed' %>">Status : <%= exist_ap.status==true?'Passed':'Failed' %> </span><br>
+                           <span> Comments : <%= exist_ap.comment %></span><br><hr>
+                          <% }else{ %>
+                          
+                            <span >You have a G Test appointment on: <%=exist_ap.Date %> at <%=exist_ap.Time %>  </span>
+            
+                            <% } %>
+                          <% }else %>
+                          <% if(!exist_ap ||(exist_ap && exist_ap.status != true)){  %>
+                        <legend class="scheduler-border">Book An Appointment for G Test</legend>
+                      
+                        <div class="mb-3">
+                          <label for="inputDate" class="form-label">Date:</label>
+                      <input type="date" id="inputDate" class="form-control" name="date">
+                        </div>
+                        <div class="mb-3">
+                          <label for="inputTimeslots" class="form-label">Available Time Slots:</label>
+                      <select  id="inputTimeslots" class="form-control" name="timeslots"></select>
+                        </div>
+                                                      
+                      
+                      <button class="btn btn-danger" type="submit">Book</button>
+                     
+      
+                        </fieldset>
+                        <% } %>
+                  </form>
+                  <hr>
+            <% if(user_data && user_data!=1){  %>
+                
+                <form method="post" action="/edit/<%=user_data._id %>">
+                   
+                    <fieldset class="scheduler-border">
+                        <legend class="scheduler-border">Personal Details</legend>
+                        <div class="mb-3">
+                            <label for="inputFirstname" class="form-label">First Name </label>
+                            <input type="text" class="form-control" id="inputFirstname" name="first_name"  value="<%= user_data.first_name == 'default' ? ' ' : user_data.first_name %>" disabled>
+                            
+                          </div>
+                          <div class="mb-3">
+                            <label for="inputLastname" class="form-label">Last Name </label>
+                            <input type="text" class="form-control" id="inputLastname" name="last_name"  value="<%= user_data.last_name == 'default' ? ' ' : user_data.last_name %>" disabled>
+                            
+                          </div>
+                      
+                            <div class="mb-3">
+                              <label for="inputLicense" class="form-label">License Number </label>
+                              <input type="text" class="form-control" id="inputLicense" name="license"  value="<%= user_data.license == 'default' ? ' ' : user_data.license %>" disabled>
+                             
+                            </div>
+
+                          
+                          <div class="mb-3">
+                            <label for="inputAge" class="form-label">Age </label>
+                            <input type="number" class="form-control" id="inputAge" name="age"  value="<%= user_data.age == 0 ? ' ' : user_data.age %>" disabled>
+                            
+                          </div>
+                          <div class="mb-3">
+                            <label for="inputDob" class="form-label">DOB </label>
+                            <input type="date" class="form-control" id="inputDob" name="dob"  value="<%= user_data.dob == 'default' ? ' ' : user_data.dob %>" disabled>
+                            
+                          </div>
+                          
+                    </fieldset>
+                    <fieldset class="scheduler-border">
+                        <legend class="scheduler-border">Car Details</legend>
+                        <div class="mb-3">
+                            <label for="inputCarmake" class="form-label">Make </label>
+                            <input type="text" class="form-control" id="inputCarmake" name="cmake"  required value="<%= user_data.car_details.cmake == 'default' ? ' ' : user_data.car_details.cmake %>">
+                            
+                          </div>
+                          <div class="mb-3">
+                            <label for="inputCarmodel" class="form-label">Car Model </label>
+                            <input type="text" class="form-control" id="inputCarmodel" name="cmodel" required value="<%= user_data.car_details.cmodel == 'default' ? ' ' : user_data.car_details.cmodel %>">
+                            
+                          </div>
+                        <div class="mb-3">
+                            <label for="inputCaryear" class="form-label">Year </label>
+                            <input type="number" class="form-control" id="inputCaryear" name="cyear" required value="<%= user_data.car_details.cyear == 0 ? ' ' : user_data.car_details.cyear %>">
+                          </div>
+                          <div class="mb-3">
+                            <label for="inputPlatno" class="form-label">Plat Number </label>
+                            <input type="text" class="form-control" id="inputPlatno" name="cplatno" required value="<%= user_data.car_details.cplatno == 'default' ? ' ' : user_data.car_details.cplatno %>">
+                            
+                          </div>
+                         
+                          
+                    </fieldset>
+                  
+                    <button type="submit" class="btn btn-primary">Update</button>
+                  </form>
+                
+
+                <% } else if(user_data!= null){  %>
+                    <span  class="alert alert-danger">
+                    No User Data Found
+                    </span> <a  class="btn btn-primary" href="/g2_test">Back to G2</a>
+                    <% }   %>
+                </div>
+        </div>
+        
+    </div>
+    <script>
+      $(document).ready(function() {
+        let today = new Date().toISOString().split('T')[0];
+document.getElementsByName("date")[0].setAttribute('min', today);
+
+  
+  function fetchAvailableTimeSlots(selectedDate) {
+      $.ajax({
+          type: 'POST',
+          url: '/available_time_slots_for_drivers',
+          data: { date: selectedDate }, 
+          success: function(response) {
+              
+              console.log('Available time slots:', response);
+             
+              displayAvailableTimeSlots(response);
+          },
+          error: function(xhr, status, error) {
+              
+              console.error('Error fetching available time slots:', error);
+          }
+      });
+  }
+
+function displayAvailableTimeSlots(timeSlots) {
+      
+      $('#inputTimeslots').empty();
+      
+      timeSlots.forEach(function(timeSlot) {
+          $('#inputTimeslots').append($('<option>', { 
+              value: timeSlot,
+              text : timeSlot 
+          }));
+      });
+  }
+
+  
+  $('#inputDate').on('change', function() {
+      const selectedDate = $(this).val();
+      if (selectedDate) {
+        
+          fetchAvailableTimeSlots(selectedDate);
+      }
+  });
+});
+  </script>
+</body>
+<%-  include('./partials/footer.ejs')         %>
+</html>
